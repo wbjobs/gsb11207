@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SW 请求调试台</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header>
+    <h1>SW 请求调试台</h1>
+    <div class="sw-bar">
+      <span>Service Worker: <strong id="sw-status">注册中…</strong></span>
+      <button id="sw-update" hidden>立即更新并刷新</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" id="demo">
+      <h2>演示请求</h2>
+      <button data-demo="time">GET /api/time</button>
+      <button data-demo="users">GET /api/users</button>
+      <button data-demo="slow">GET /api/slow?ms=800</button>
+      <button data-demo="flaky">GET /api/flaky</button>
+      <button data-demo="echo">POST /api/echo</button>
+    </section>
+
+    <section class="panel">
+      <h2>全局开关</h2>
+      <label><input type="checkbox" id="toggle-recording"> 录制（记录所有 /api/ 请求与响应）</label>
+      <label><input type="checkbox" id="toggle-replay"> 重放（优先返回录制结果，断网时兜底）</label>
+      <label><input type="checkbox" id="toggle-offline"> 模拟断网（不触网；配合重放可离线验证）</label>
+    </section>
+
+    <section class="panel">
+      <h2>故障注入规则</h2>
+      <form id="rule-form">
+        <input id="rule-pattern" placeholder="URL 匹配，如 /api/flaky" required>
+        <select id="rule-matchtype">
+          <option value="contains">包含</option>
+          <option value="regex">正则</option>
+        </select>
+        <select id="rule-method">
+          <option>ANY</option><option>GET</option><option>POST</option>
+          <option>PUT</option><option>DELETE</option>
+        </select>
+        <select id="rule-action">
+          <option value="delay">延迟</option>
+          <option value="fail">失败</option>
+          <option value="mock">Mock</option>
+        </select>
+        <span id="params-delay"><input id="rule-delay" type="number" min="0" value="1000" title="延迟 ms"> ms</span>
+        <span id="params-fail" hidden><input id="rule-status" type="number" value="503" title="状态码"> 状态码</span>
+        <span id="params-mock" hidden>
+          <input id="rule-mock-status" type="number" value="200" title="状态码" style="width:5em">
+          <input id="rule-mock-body" placeholder='响应体，如 {"ok":true}'>
+          <input id="rule-mock-headers" placeholder='头(JSON)，可留空'>
+        </span>
+        <button type="submit">添加规则</button>
+      </form>
+      <table>
+        <thead><tr><th>启用</th><th>匹配</th><th>方法</th><th>动作</th><th></th></tr></thead>
+        <tbody id="rules-body"></tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>录制 <button id="rec-clear">清空</button></h2>
+      <table>
+        <thead><tr><th>方法</th><th>URL</th><th>状态</th><th>大小</th><th>时间</th><th></th></tr></thead>
+        <tbody id="rec-body"></tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>日志</h2>
+      <div id="log"></div>
+    </section>
+  </main>
+
+  <script src="./db.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
