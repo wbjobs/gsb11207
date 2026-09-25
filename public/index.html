@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>调试台 · SW 请求拦截</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <h1>调试台</h1>
+  <div class="sw-bar">
+    <span>SW 状态：<b id="sw-status">初始化…</b></span>
+    <button id="btn-update">检查 SW 更新</button>
+    <span>缓存：<code id="cache-list">…</code></span>
+    <button id="btn-refresh-cache">刷新缓存列表</button>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>模式</h2>
+    <label>工作模式
+      <select id="mode">
+        <option value="passthrough">直通（不拦截）</option>
+        <option value="record">录制</option>
+        <option value="replay">重放（离线可用）</option>
+      </select>
+    </label>
+    <label class="inline">
+      <input type="checkbox" id="offline-all"> 全局断网（/api/* 全部网络错误）
+    </label>
+  </section>
+
+  <section class="panel">
+    <h2>故障注入规则</h2>
+    <div class="rule-form">
+      <input id="f-pattern" placeholder="URL 匹配：子串 或 /正则/flags，如 /api/users">
+      <select id="f-method">
+        <option>ALL</option><option>GET</option><option>POST</option>
+        <option>PUT</option><option>DELETE</option>
+      </select>
+      <select id="f-action">
+        <option value="fail">失败（状态码/网络错误）</option>
+        <option value="mock">Mock 响应</option>
+        <option value="delay">仅延迟</option>
+        <option value="offline">断网（网络错误）</option>
+      </select>
+      <input id="f-delay" type="number" min="0" placeholder="延迟 ms">
+      <input id="f-status" type="number" min="0" max="599" placeholder="状态码(0=网络错误)">
+      <input id="f-contenttype" placeholder="Content-Type" value="application/json; charset=utf-8">
+      <textarea id="f-mockbody" placeholder='Mock 响应体，如 {"mock":true}'></textarea>
+      <button id="btn-add-rule">添加规则</button>
+    </div>
+    <table>
+      <thead><tr><th>启用</th><th>匹配</th><th>动作</th><th></th></tr></thead>
+      <tbody id="rules-body"></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>Demo 请求</h2>
+    <div class="demo-btns">
+      <button id="demo-time">GET /api/time</button>
+      <button id="demo-users">GET /api/users</button>
+      <button id="demo-slow">GET /api/slow</button>
+      <button id="demo-echo">POST /api/echo</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>录制（<span id="rec-count">0</span>）</h2>
+    <button id="btn-refresh-rec">刷新</button>
+    <button id="btn-clear-rec">清空录制</button>
+    <table>
+      <thead><tr><th>方法</th><th>URL</th><th>状态</th><th>时间</th><th></th></tr></thead>
+      <tbody id="rec-body"></tbody>
+    </table>
+  </section>
+
+  <section class="panel wide">
+    <h2>实时日志</h2>
+    <button id="btn-clear-log">清空日志</button>
+    <table>
+      <thead><tr><th>时间</th><th>类型</th><th>方法</th><th>URL / 说明</th><th>状态</th></tr></thead>
+      <tbody id="log-body"></tbody>
+    </table>
+  </section>
+</main>
+
+<script src="/db.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

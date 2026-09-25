@@ -1,0 +1,28 @@
+* { box-sizing: border-box; }
+body { font-family: system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; margin: 0; background: #0f1420; color: #dde3ee; }
+header { padding: 12px 20px; background: #171e30; border-bottom: 1px solid #2a3550; }
+h1 { font-size: 18px; margin: 0 0 8px; }
+h2 { font-size: 14px; margin: 0 0 10px; color: #8fb3ff; }
+.sw-bar { display: flex; gap: 14px; align-items: center; font-size: 12px; color: #9aa7c2; flex-wrap: wrap; }
+.sw-bar code { color: #7ee0a3; }
+main { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px 20px; }
+.panel { background: #171e30; border: 1px solid #2a3550; border-radius: 8px; padding: 14px; }
+.panel.wide { grid-column: 1 / -1; }
+label { display: block; font-size: 13px; margin-bottom: 8px; }
+label.inline { display: inline-flex; gap: 6px; align-items: center; }
+select, input, textarea, button { font: inherit; font-size: 13px; border-radius: 5px; border: 1px solid #2a3550; background: #0f1420; color: #dde3ee; padding: 5px 8px; }
+button { cursor: pointer; background: #22304f; }
+button:hover { background: #2c3f66; }
+.rule-form { display: grid; grid-template-columns: 2fr 1fr 1.4fr; gap: 6px; margin-bottom: 10px; }
+.rule-form textarea { grid-column: 1 / -1; min-height: 44px; resize: vertical; }
+.rule-form button { grid-column: 1 / -1; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+th, td { text-align: left; padding: 4px 6px; border-bottom: 1px solid #232c44; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+th { color: #8fb3ff; font-weight: 600; }
+.demo-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.kind-mock td { color: #d8b4fe; }
+.kind-fail td, .kind-offline td { color: #ff9a9a; }
+.kind-replay td { color: #7ee0a3; }
+.kind-replay-miss td { color: #ffb86b; }
+.kind-record td { color: #8fb3ff; }
+.kind-delay td { color: #ffe08a; }
